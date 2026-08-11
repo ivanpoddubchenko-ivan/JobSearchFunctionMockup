@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme inline {
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 0; }
+* { scrollbar-width: none; }
+
+/* ── Light (default) ── */
+:root, [data-theme="light"] {
+  --bg:             #ecedf6;
+  --bg-subtle:      #e4e5f0;
+  --surface:        #ffffff;
+  --surface-raised: #f7f7fc;
+  --border:         rgba(0,0,0,0.07);
+  --border-subtle:  rgba(0,0,0,0.04);
+  --shadow:         0 2px 12px rgba(80,80,160,0.08), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-sm:      0 1px 4px rgba(80,80,160,0.06);
+  --text:           #111128;
+  --text-muted:     #4b4b6b;
+  --text-dim:       #8888aa;
+  --text-xdim:      #c5c5dc;
+  --purple:         #5b5ce2;
+  --purple-hover:   #4a4bc8;
+  --purple-bg:      rgba(91,92,226,0.08);
+  --purple-border:  rgba(91,92,226,0.2);
+  --purple-fg:      #ffffff;
+  --radius-card:    16px;
+  --radius-btn:     10px;
+  --radius-input:   10px;
+  --radius-badge:   6px;
+}
+
+/* ── Dark ── */
+[data-theme="dark"] {
+  --bg:             #13122a;
+  --bg-subtle:      #1a1932;
+  --surface:        #1e1d38;
+  --surface-raised: #252444;
+  --border:         rgba(255,255,255,0.07);
+  --border-subtle:  rgba(255,255,255,0.04);
+  --shadow:         0 2px 16px rgba(0,0,0,0.35);
+  --shadow-sm:      0 1px 4px rgba(0,0,0,0.25);
+  --text:           #eeeeff;
+  --text-muted:     #9494c0;
+  --text-dim:       #5c5c88;
+  --text-xdim:      #2e2e50;
+  --purple:         #7878f0;
+  --purple-hover:   #8f8ff5;
+  --purple-bg:      rgba(120,120,240,0.12);
+  --purple-border:  rgba(120,120,240,0.25);
+  --purple-fg:      #ffffff;
+  --radius-card:    16px;
+  --radius-btn:     10px;
+  --radius-input:   10px;
+  --radius-badge:   6px;
+}

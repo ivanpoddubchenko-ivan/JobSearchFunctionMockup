@@ -1,0 +1,11 @@
+{
+  "title": "BHMP",
+  "description": "Discover job listings tailored for students, graduates, and professionals, with direct links to employers and application tracking for seamless job searching.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
