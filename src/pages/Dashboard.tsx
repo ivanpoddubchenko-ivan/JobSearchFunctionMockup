@@ -107,12 +107,20 @@ export default function Dashboard() {
               {s}
             </button>
           ))}
-          <select value={jobType} onChange={e => setJobType(e.target.value)} style={{
-            padding: '6px 14px', borderRadius: 8, fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', outline: 'none',
-            background: v.surface, color: v.dim, border: 'none', boxShadow: v.shadowSm, fontFamily: 'Inter, sans-serif',
-          }}>
-            {TYPES.map(tp => <option key={tp}>{tp}</option>)}
-          </select>
+          <div style={{ position: 'relative', display: 'inline-flex' }}>
+            <select value={jobType} onChange={e => setJobType(e.target.value)} style={{
+              padding: '6px 28px 6px 14px', borderRadius: 8, fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', outline: 'none',
+              background: v.surface, color: v.dim, border: 'none', boxShadow: v.shadowSm, fontFamily: 'Inter, sans-serif',
+              appearance: 'none', WebkitAppearance: 'none', MozAppearance: 'none',
+            }}>
+              {TYPES.map(tp => <option key={tp}>{tp}</option>)}
+            </select>
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{
+              position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: v.dim,
+            }}>
+              <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
         </div>
       </div>
 
