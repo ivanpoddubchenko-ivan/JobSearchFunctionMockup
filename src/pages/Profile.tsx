@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { JOBS } from '../data/jobs'
+import { JOBS, ROLES } from '../data/jobs'
 import { v, useTheme, Logo, UserMenu, JobDetail } from '../components/shared'
 import { useAuth } from '../context/AuthContext'
 
@@ -24,11 +24,13 @@ function InfoBlock({ label, value }: { label: string; value: string }) {
 function GeneralTab() {
   const { user } = useAuth()
   if (!user) return null
+  const roleLabel = ROLES.find(r => r.id === user.role)?.label ?? user.role
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <InfoBlock label="Full name" value={user.name} />
       <InfoBlock label="Email" value={user.email} />
       <InfoBlock label="Date of birth" value={user.dob} />
+      <InfoBlock label="Role" value={roleLabel} />
     </div>
   )
 }
