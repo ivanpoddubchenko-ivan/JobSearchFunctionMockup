@@ -6,6 +6,7 @@ export type AuthUser = {
   name: string
   email: string
   role: string
+  savedJobIds: number[]
 }
 
 type SignUpDetails = {
@@ -20,6 +21,7 @@ type AuthContextValue = {
   signUp: (email: string, password: string, details: SignUpDetails) => Promise<{ error: string | null; needsEmailConfirmation: boolean }>
   signIn: (email: string, password: string) => Promise<{ error: string | null }>
   logout: () => Promise<void>
+  toggleSavedJob: (jobId: number) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -29,10 +31,14 @@ function toAuthUser(supabaseUser: { email?: string | null; user_metadata?: Recor
   const meta = supabaseUser.user_metadata ?? {}
   const fullName = typeof meta.full_name === 'string' ? meta.full_name : ''
   const role = typeof meta.role === 'string' ? meta.role : ''
+  const savedJobIds = Array.isArray(meta.saved_job_ids)
+    ? meta.saved_job_ids.filter((id): id is number => typeof id === 'number')
+    : []
   return {
     name: fullName || supabaseUser.email.split('@')[0] || 'You',
     email: supabaseUser.email,
     role,
+    savedJobIds,
   }
 }
 
@@ -78,8 +84,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await supabase.auth.signOut()
   }
 
+  const toggleSavedJob = async (jobId: number) => {
+    if (!user) return
+    const nextIds = user.savedJobIds.includes(jobId)
+      ? user.savedJobIds.filter(id => id !== jobId)
+      : [...user.savedJobIds, jobId]
+    await supabase.auth.updateUser({ data: { saved_job_ids: nextIds } })
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, signUp, signIn, logout }}>
+    <AuthContext.Provider value={{ user, loading, signUp, signIn, logout, toggleSavedJob }}>
       {children}
     </AuthContext.Provider>
   )
