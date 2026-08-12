@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, type ReactNode } from 'react'
-
-const STORAGE_KEY = 'pathways_auth'
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import type { AuthError } from '@supabase/supabase-js'
+import { supabase } from '../lib/supabaseClient'
 
 export type AuthUser = {
   name: string
@@ -8,39 +8,78 @@ export type AuthUser = {
   role: string
 }
 
+type SignUpDetails = {
+  fullName: string
+  dob: string
+  role: string
+}
+
 type AuthContextValue = {
   user: AuthUser | null
-  login: (email: string, role: string, name?: string) => void
-  logout: () => void
+  loading: boolean
+  signUp: (email: string, password: string, details: SignUpDetails) => Promise<{ error: string | null; needsEmailConfirmation: boolean }>
+  signIn: (email: string, password: string) => Promise<{ error: string | null }>
+  logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
-function readStoredUser(): AuthUser | null {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? (JSON.parse(raw) as AuthUser) : null
-  } catch {
-    return null
+function toAuthUser(supabaseUser: { email?: string | null; user_metadata?: Record<string, unknown> } | null | undefined): AuthUser | null {
+  if (!supabaseUser?.email) return null
+  const meta = supabaseUser.user_metadata ?? {}
+  const fullName = typeof meta.full_name === 'string' ? meta.full_name : ''
+  const role = typeof meta.role === 'string' ? meta.role : ''
+  return {
+    name: fullName || supabaseUser.email.split('@')[0] || 'You',
+    email: supabaseUser.email,
+    role,
   }
 }
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(() => readStoredUser())
+function errorMessage(error: AuthError | null): string | null {
+  return error ? error.message : null
+}
 
-  const login = (email: string, role: string, name?: string) => {
-    const nextUser: AuthUser = { name: name || email.split('@')[0] || 'You', email, role }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(nextUser))
-    setUser(nextUser)
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<AuthUser | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(toAuthUser(data.session?.user))
+      setLoading(false)
+    })
+
+    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(toAuthUser(session?.user))
+      setLoading(false)
+    })
+
+    return () => subscription.subscription.unsubscribe()
+  }, [])
+
+  const signUp = async (email: string, password: string, details: SignUpDetails) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name: details.fullName, date_of_birth: details.dob, role: details.role },
+      },
+    })
+    return { error: errorMessage(error), needsEmailConfirmation: !error && !data.session }
   }
 
-  const logout = () => {
-    localStorage.removeItem(STORAGE_KEY)
-    setUser(null)
+  const signIn = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    return { error: errorMessage(error) }
+  }
+
+  const logout = async () => {
+    await supabase.auth.signOut()
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, signUp, signIn, logout }}>
       {children}
     </AuthContext.Provider>
   )

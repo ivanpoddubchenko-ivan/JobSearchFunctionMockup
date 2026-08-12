@@ -19,9 +19,10 @@ This is the canonical project structure. Start with task-relevant files below. O
 - `src/pages/LoginPage.tsx` - The `/login` route: split-screen shell (image panel + mode tabs) rendering either `RegisterWizard` or `SignInForm`
 - `src/components/login/` - Login-page-only pieces: `RegisterWizard.tsx` (2-step signup), `SignInForm.tsx`, `DateOfBirthField.tsx`, `PasswordField.tsx`, `ImagePanel.tsx`
 - `src/components/shared.tsx` - Shared UI atoms and CSS-var tokens (`v`, `Logo`, `ThemeToggle`, `Badge`, `JobCard`, `JobDetail`, `TrackerView`, `useTheme`) reused by both pages
-- `src/components/RequireAuth.tsx` - Route guard; redirects to `/login` when there is no authenticated user
-- `src/context/AuthContext.tsx` - Mock auth state (`AuthProvider` / `useAuth`), persisted to `localStorage` under `pathways_auth`
-- `src/data/jobs.ts` - Hardcoded mock data: `JOBS`, `ROLES`, `SECTORS`, `TYPES`, `STATUS_STYLE`
+- `src/components/RequireAuth.tsx` - Route guard; renders nothing while the session is loading, then redirects to `/login` when there is no authenticated user
+- `src/context/AuthContext.tsx` - Real auth state (`AuthProvider` / `useAuth`) backed by Supabase Auth: `signUp`, `signIn`, `logout`, session restored via `supabase.auth.getSession()` and kept in sync via `onAuthStateChange`
+- `src/lib/supabaseClient.ts` - The single Supabase client instance, reads `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` from env
+- `src/data/jobs.ts` - Hardcoded mock data: `JOBS`, `ROLES`, `SECTORS`, `TYPES`, `STATUS_STYLE` (jobs/tracker are still mocked — only auth is real)
 - `src/assets/login/` - Login page brand assets (BHMP Network logo, background photo)
 - `src/index.css` - Global CSS entrypoint, Tailwind CSS v4 import, light/dark theme CSS variables, and the `.login-image-panel` responsive rule
 - `index.html` - Vite HTML shell containing the `#root` element and loading `src/main.tsx`
@@ -31,10 +32,14 @@ This is the canonical project structure. Start with task-relevant files below. O
 
 ## Dependencies
 
-- Runtime: React 19, React DOM 19, and React Router 7 (`react-router-dom`)
+- Runtime: React 19, React DOM 19, React Router 7 (`react-router-dom`), and `@supabase/supabase-js` for auth
 - Styling: Tailwind CSS v4 with the `@tailwindcss/vite` plugin
 - Build tooling: Vite 8, TypeScript 5.7, and `@vitejs/plugin-react`
 - Formatting: oxfmt
+
+## Environment
+
+Requires `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (see `.env.example`) in `.env.local` for `src/lib/supabaseClient.ts` to initialize — without them the app throws on load.
 
 ## Styling
 

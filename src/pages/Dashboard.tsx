@@ -11,8 +11,8 @@ function UserMenu() {
   if (!user) return null
   const initials = user.name.slice(0, 2).toUpperCase()
 
-  const handleLogout = () => {
-    logout()
+  const handleLogout = async () => {
+    await logout()
     navigate('/login')
   }
 

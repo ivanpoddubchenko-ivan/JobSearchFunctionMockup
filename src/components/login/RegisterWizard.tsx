@@ -34,7 +34,7 @@ function StepIndicator({ step }: { step: 1 | 2 }) {
 }
 
 export function RegisterWizard() {
-  const { login } = useAuth()
+  const { signUp } = useAuth()
   const navigate = useNavigate()
 
   const [step, setStep] = useState<1 | 2>(1)
@@ -45,8 +45,10 @@ export function RegisterWizard() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [checkEmail, setCheckEmail] = useState(false)
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!fullName || !dob || !email || !password || !confirmPassword) return
     if (password !== confirmPassword) {
@@ -54,8 +56,30 @@ export function RegisterWizard() {
       return
     }
     setError('')
-    login(email, selectedRole, fullName)
+    setSubmitting(true)
+    const { error: signUpError, needsEmailConfirmation } = await signUp(email, password, { fullName, dob, role: selectedRole })
+    setSubmitting(false)
+    if (signUpError) {
+      setError(signUpError)
+      return
+    }
+    if (needsEmailConfirmation) {
+      setCheckEmail(true)
+      return
+    }
     navigate('/')
+  }
+
+  if (checkEmail) {
+    return (
+      <div>
+        <StepIndicator step={2} />
+        <p style={{ fontSize: '0.9rem', fontWeight: 600, color: v.text, margin: '0 0 8px' }}>Check your email</p>
+        <p style={{ fontSize: '0.82rem', color: v.dim, lineHeight: 1.5, margin: 0 }}>
+          We sent a confirmation link to <strong>{email}</strong>. Confirm your address, then sign in.
+        </p>
+      </div>
+    )
   }
 
   if (step === 1) {
@@ -143,14 +167,15 @@ export function RegisterWizard() {
           <p style={{ color: '#dc2626', fontSize: '0.75rem', fontWeight: 500, margin: 0 }}>{error}</p>
         )}
 
-        <button type="submit" style={{
-          marginTop: 4, padding: '12px 0', borderRadius: v.rBtn, fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer',
+        <button type="submit" disabled={submitting} style={{
+          marginTop: 4, padding: '12px 0', borderRadius: v.rBtn, fontWeight: 700, fontSize: '0.875rem',
+          cursor: submitting ? 'not-allowed' : 'pointer', opacity: submitting ? 0.7 : 1,
           background: v.purple, color: '#fff', border: 'none', transition: 'opacity 0.15s',
         }}
-          onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.88'}
-          onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '1'}
+          onMouseEnter={e => !submitting && ((e.currentTarget as HTMLElement).style.opacity = '0.88')}
+          onMouseLeave={e => !submitting && ((e.currentTarget as HTMLElement).style.opacity = '1')}
         >
-          Create my account
+          {submitting ? 'Creating account…' : 'Create my account'}
         </button>
       </div>
     </form>

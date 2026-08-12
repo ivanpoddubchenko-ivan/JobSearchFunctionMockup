@@ -5,15 +5,24 @@ import { useAuth } from '../../context/AuthContext'
 import { PasswordField } from './PasswordField'
 
 export function SignInForm() {
-  const { login } = useAuth()
+  const { signIn } = useAuth()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!email || !password) return
-    login(email, 'professional')
+    setError('')
+    setSubmitting(true)
+    const { error: signInError } = await signIn(email, password)
+    setSubmitting(false)
+    if (signInError) {
+      setError(signInError)
+      return
+    }
     navigate('/')
   }
 
@@ -31,14 +40,20 @@ export function SignInForm() {
         onBlur={e => (e.currentTarget.style.borderColor = 'transparent')}
       />
       <PasswordField value={password} onChange={setPassword} placeholder="Password" required />
-      <button type="submit" style={{
-        marginTop: 4, padding: '12px 0', borderRadius: v.rBtn, fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer',
+
+      {error && (
+        <p style={{ color: '#dc2626', fontSize: '0.75rem', fontWeight: 500, margin: 0 }}>{error}</p>
+      )}
+
+      <button type="submit" disabled={submitting} style={{
+        marginTop: 4, padding: '12px 0', borderRadius: v.rBtn, fontWeight: 700, fontSize: '0.875rem',
+        cursor: submitting ? 'not-allowed' : 'pointer', opacity: submitting ? 0.7 : 1,
         background: v.purple, color: '#fff', border: 'none', transition: 'opacity 0.15s',
       }}
-        onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.88'}
-        onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '1'}
+        onMouseEnter={e => !submitting && ((e.currentTarget as HTMLElement).style.opacity = '0.88')}
+        onMouseLeave={e => !submitting && ((e.currentTarget as HTMLElement).style.opacity = '1')}
       >
-        Sign in
+        {submitting ? 'Signing in…' : 'Sign in'}
       </button>
     </form>
   )
