@@ -14,11 +14,12 @@ A Vite development server is **already running** on `$PORT` (default 8443). You 
 This is the canonical project structure. Start with task-relevant files below. Only follow imports or inspect other files when required, when a documented path is missing, or when the repository contradicts this guide.
 
 - `src/main.tsx` - React entrypoint; imports `src/index.css` and mounts `src/App.tsx`, wrapped in `BrowserRouter`, into the `#root` element
-- `src/App.tsx` - Route definitions (`/` and `/login`) and the `AuthProvider` wrapper. Not the usual starting point for UI work — see `src/pages/` instead
+- `src/App.tsx` - Route definitions (`/`, `/login`, and `/profile`) and the `AuthProvider` wrapper. Not the usual starting point for UI work — see `src/pages/` instead
 - `src/pages/Dashboard.tsx` - The `/` route (job listings, filters), gated behind auth via `RequireAuth`
 - `src/pages/LoginPage.tsx` - The `/login` route: split-screen shell (image panel + mode tabs) rendering either `RegisterWizard` or `SignInForm`
+- `src/pages/Profile.tsx` - The `/profile` route: account page with a vertical tab nav (General / Saved / Settings), gated behind auth via `RequireAuth`
 - `src/components/login/` - Login-page-only pieces: `RegisterWizard.tsx` (2-step signup), `SignInForm.tsx`, `DateOfBirthField.tsx`, `PasswordField.tsx`, `ImagePanel.tsx`
-- `src/components/shared.tsx` - Shared UI atoms and CSS-var tokens (`v`, `Logo`, `ThemeToggle`, `Badge`, `JobCard`, `JobDetail`, `useTheme`) reused by both pages
+- `src/components/shared.tsx` - Shared UI atoms and CSS-var tokens (`v`, `Logo`, `ThemeToggle`, `Badge`, `JobCard`, `JobDetail`, `UserMenu`, `useTheme`) reused by both pages
 - `src/components/RequireAuth.tsx` - Route guard; renders nothing while the session is loading, then redirects to `/login` when there is no authenticated user
 - `src/context/AuthContext.tsx` - Real auth state (`AuthProvider` / `useAuth`) backed by Supabase Auth: `signUp`, `signIn`, `logout`, session restored via `supabase.auth.getSession()` and kept in sync via `onAuthStateChange`
 - `src/lib/supabaseClient.ts` - The single Supabase client instance, reads `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` from env

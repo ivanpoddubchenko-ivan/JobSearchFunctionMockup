@@ -138,9 +138,9 @@ export default function Profile() {
     <div style={{ background: v.bg, minHeight: '100vh', color: v.text }}>
       <header style={{ background: v.surface, boxShadow: `0 1px 0 ${v.border}`, position: 'sticky', top: 0, zIndex: 40 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 28px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
-          <div onClick={() => navigate('/')} style={{ cursor: 'pointer', display: 'flex' }}>
+          <button onClick={() => navigate('/')} style={{ cursor: 'pointer', display: 'flex', background: 'none', border: 'none', padding: 0 }}>
             <Logo />
-          </div>
+          </button>
           <UserMenu />
         </div>
       </header>
