@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { JOBS, STATUS_STYLE } from '../data/jobs'
+import bhmpLogo from '../assets/bhmp-logo.avif'
 
 // ─── Theme ───────────────────────────────────────────────────────────────────
 
@@ -42,20 +43,10 @@ export const v = {
 
 export function Logo() {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-      <div style={{
-        width: 30, height: 30, borderRadius: 9, background: v.purple,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-      }}>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M2 11L7 3L12 11" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M4 8.5H10"       stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
-        </svg>
-      </div>
-      <span style={{ fontWeight: 700, fontSize: '1rem', letterSpacing: '-0.02em', color: v.text }}>
-        Pathways
-      </span>
-    </div>
+    <img
+      src={bhmpLogo} alt="BHMP Network"
+      style={{ height: 30, width: 'auto', display: 'block', flexShrink: 0 }}
+    />
   )
 }
 
