@@ -213,7 +213,7 @@ export function JobDetail({ job, onClose }: { job: typeof JOBS[0]; onClose: () =
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 22 }}>
-        {[['Type', job.type], ['Salary', job.salary], ['Sector', job.sector], ['Posted', job.posted]].map(([k, val]) => (
+        {[['Type', job.type], ['Salary', job.salary], ['Sector', job.sector], ['Deadline', job.posted]].map(([k, val]) => (
           <div key={k} style={{ borderRadius: 10, padding: '11px 14px', background: v.bgSubtle }}>
             <p style={{ color: v.dim, fontSize: '0.68rem', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.07em', margin: '0 0 4px' }}>{k}</p>
             <p style={{ fontSize: '0.82rem', fontWeight: 600, color: v.text, margin: 0 }}>{val}</p>
