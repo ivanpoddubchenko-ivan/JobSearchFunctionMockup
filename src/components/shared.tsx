@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { JOBS, STATUS_STYLE } from '../data/jobs'
+import bhmpLogo from '../assets/bhmp-logo.avif'
 
 // ─── Theme ───────────────────────────────────────────────────────────────────
 
@@ -42,20 +43,10 @@ export const v = {
 
 export function Logo() {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-      <div style={{
-        width: 30, height: 30, borderRadius: 9, background: v.purple,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-      }}>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M2 11L7 3L12 11" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M4 8.5H10"       stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
-        </svg>
-      </div>
-      <span style={{ fontWeight: 700, fontSize: '1rem', letterSpacing: '-0.02em', color: v.text }}>
-        Pathways
-      </span>
-    </div>
+    <img
+      src={bhmpLogo} alt="BHMP Network"
+      style={{ height: 30, width: 'auto', display: 'block', flexShrink: 0 }}
+    />
   )
 }
 
@@ -227,63 +218,6 @@ export function JobDetail({ job, onClose }: { job: typeof JOBS[0]; onClose: () =
         }}>
           {job.saved ? '★ Saved to tracker' : '☆ Save to tracker'}
         </button>
-      </div>
-    </div>
-  )
-}
-
-// ─── Tracker ─────────────────────────────────────────────────────────────────
-
-export function TrackerView() {
-  const tracked = JOBS.filter(j => j.status)
-  const stages  = ['Saved', 'Applied', 'Interview', 'Offer']
-
-  return (
-    <div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 28 }}>
-        <div>
-          <h2 style={{ fontWeight: 700, fontSize: 'clamp(1.4rem, 3vw, 1.75rem)', color: v.text, margin: 0, letterSpacing: '-0.025em' }}>Application Tracker</h2>
-          <p style={{ fontSize: '0.875rem', color: v.dim, margin: '6px 0 0' }}>Track your applications across all stages</p>
-        </div>
-        <span style={{ fontSize: '0.75rem', fontWeight: 600, padding: '6px 14px', borderRadius: 8, background: v.purpleBg, color: v.purple }}>
-          {tracked.length} active
-        </span>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
-        {stages.map(stage => {
-          const jobs = tracked.filter(j => j.status === stage)
-          const ss = STATUS_STYLE[stage] ?? STATUS_STYLE['Saved']
-          return (
-            <div key={stage}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: v.muted, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{stage}</span>
-                <span style={{ width: 20, height: 20, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: ss.bg, color: ss.color, fontSize: '0.65rem', fontWeight: 700 }}>
-                  {jobs.length}
-                </span>
-              </div>
-              <div style={{ minHeight: 100, borderRadius: v.rCard, padding: 8, background: v.bgSubtle, display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {jobs.map(job => (
-                  <div key={job.id} style={{ borderRadius: 10, padding: '12px 14px', background: v.surface, boxShadow: v.shadowSm }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
-                      <div style={{ width: 22, height: 22, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', background: job.color + '18', color: job.color, fontSize: '0.5rem', fontWeight: 700 }}>
-                        {job.logo}
-                      </div>
-                      <span style={{ fontSize: '0.78rem', fontWeight: 600, color: v.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{job.company}</span>
-                    </div>
-                    <p style={{ fontSize: '0.75rem', color: v.muted, lineHeight: 1.4, margin: 0 }}>{job.title}</p>
-                    <p style={{ fontSize: '0.68rem', color: v.dim, margin: '6px 0 0' }}>{job.posted}</p>
-                  </div>
-                ))}
-                {jobs.length === 0 && (
-                  <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 64 }}>
-                    <span style={{ color: v.xdim, fontSize: '1.2rem' }}>—</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          )
-        })}
       </div>
     </div>
   )
