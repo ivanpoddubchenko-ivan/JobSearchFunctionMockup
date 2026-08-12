@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { JOBS, SECTORS, TYPES } from '../data/jobs'
-import { v, useTheme, Logo, ThemeToggle, JobCard, JobDetail } from '../components/shared'
+import { v, useTheme, Logo, JobCard, JobDetail } from '../components/shared'
 import { useAuth } from '../context/AuthContext'
 
 function UserMenu() {
@@ -35,7 +35,7 @@ function UserMenu() {
 }
 
 export default function Dashboard() {
-  const { theme, toggle } = useTheme()
+  useTheme()
   const [selectedJob, setSelectedJob] = useState<typeof JOBS[0] | null>(JOBS[0])
   const [sector,      setSector]      = useState('All')
   const [jobType,     setJobType]     = useState('All types')
@@ -77,7 +77,6 @@ export default function Dashboard() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-            <ThemeToggle theme={theme} toggle={toggle} />
             <UserMenu />
           </div>
         </div>
