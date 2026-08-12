@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { JOBS, STATUS_STYLE } from '../data/jobs'
+import { JOBS } from '../data/jobs'
+import { useAuth } from '../context/AuthContext'
 import bhmpLogo from '../assets/bhmp-logo.avif'
 
 // ─── Theme ───────────────────────────────────────────────────────────────────
@@ -89,7 +90,8 @@ export function Badge({ children, active }: { children: React.ReactNode; active?
 
 export function JobCard({ job, onClick, isSelected }: { job: typeof JOBS[0]; onClick: () => void; isSelected: boolean }) {
   const [hovered, setHovered] = useState(false)
-  const ss = job.status ? STATUS_STYLE[job.status] : null
+  const { user } = useAuth()
+  const isSaved = user?.savedJobIds.includes(job.id) ?? false
 
   return (
     <button
@@ -122,12 +124,12 @@ export function JobCard({ job, onClick, isSelected }: { job: typeof JOBS[0]; onC
               <p style={{ fontWeight: 600, fontSize: '0.875rem', color: v.text, lineHeight: 1.3, margin: 0 }}>{job.title}</p>
               <p style={{ fontSize: '0.78rem', color: v.dim, margin: '3px 0 0' }}>{job.company} · {job.location}</p>
             </div>
-            {ss && (
+            {isSaved && (
               <span style={{
                 flexShrink: 0, padding: '3px 10px', borderRadius: v.rBadge,
-                background: ss.bg, color: ss.color, fontSize: '0.7rem', fontWeight: 600,
+                background: 'rgba(100,116,139,0.1)', color: '#64748b', fontSize: '0.7rem', fontWeight: 600,
               }}>
-                {job.status}
+                Saved
               </span>
             )}
           </div>
@@ -148,6 +150,8 @@ export function JobCard({ job, onClick, isSelected }: { job: typeof JOBS[0]; onC
 // ─── Job Detail ──────────────────────────────────────────────────────────────
 
 export function JobDetail({ job, onClose }: { job: typeof JOBS[0]; onClose: () => void }) {
+  const { user, toggleSavedJob } = useAuth()
+  const isSaved = user?.savedJobIds.includes(job.id) ?? false
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 22 }}>
@@ -212,11 +216,11 @@ export function JobDetail({ job, onClose }: { job: typeof JOBS[0]; onClose: () =
             <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </a>
-        <button style={{
+        <button onClick={() => toggleSavedJob(job.id)} style={{
           padding: '11px 0', borderRadius: v.rBtn, fontSize: '0.875rem', fontWeight: 500, cursor: 'pointer',
           background: v.purpleBg, color: v.purple, border: 'none', transition: 'opacity 0.15s',
         }}>
-          {job.saved ? '★ Saved to tracker' : '☆ Save to tracker'}
+          {isSaved ? '★ Saved to tracker' : '☆ Save to tracker'}
         </button>
       </div>
     </div>
