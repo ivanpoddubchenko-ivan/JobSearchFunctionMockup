@@ -22,7 +22,7 @@ This is the canonical project structure. Start with task-relevant files below. O
 - `src/components/RequireAuth.tsx` - Route guard; renders nothing while the session is loading, then redirects to `/login` when there is no authenticated user
 - `src/context/AuthContext.tsx` - Real auth state (`AuthProvider` / `useAuth`) backed by Supabase Auth: `signUp`, `signIn`, `logout`, session restored via `supabase.auth.getSession()` and kept in sync via `onAuthStateChange`
 - `src/lib/supabaseClient.ts` - The single Supabase client instance, reads `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` from env
-- `src/data/jobs.ts` - Hardcoded mock data: `JOBS`, `ROLES`, `SECTORS`, `TYPES`, `STATUS_STYLE` (jobs/tracker are still mocked — only auth is real)
+- `src/data/jobs.ts` - Hardcoded mock data: `JOBS`, `ROLES`, `SECTORS`, `TYPES` (jobs/tracker are still mocked — only auth is real). Each `JOBS` entry also carries numeric `postedDaysAgo`/`salaryMin` fields (used for sorting) alongside the existing display fields
 - `src/assets/login/` - Login page brand assets (BHMP Network logo, background photo)
 - `src/index.css` - Global CSS entrypoint, Tailwind CSS v4 import, light/dark theme CSS variables, and the `.login-image-panel` responsive rule
 - `index.html` - Vite HTML shell containing the `#root` element and loading `src/main.tsx`

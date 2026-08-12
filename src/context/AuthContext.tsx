@@ -92,7 +92,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const nextIds = user.savedJobIds.includes(jobId)
       ? user.savedJobIds.filter(id => id !== jobId)
       : [...user.savedJobIds, jobId]
-    await supabase.auth.updateUser({ data: { saved_job_ids: nextIds } })
+    const { error } = await supabase.auth.updateUser({ data: { saved_job_ids: nextIds } })
+    if (error) console.error('Failed to update saved jobs', error)
   }
 
   return (

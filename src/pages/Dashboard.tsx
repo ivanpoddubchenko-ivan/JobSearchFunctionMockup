@@ -132,12 +132,12 @@ export default function Dashboard() {
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.78rem', color: v.dim }}>
             Sort:
-            <button onClick={() => setSortBy('recent')} style={{
+            <button onClick={() => setSortBy('recent')} aria-pressed={sortBy === 'recent'} style={{
               background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.78rem', fontFamily: 'Inter, sans-serif',
               color: sortBy === 'recent' ? v.purple : v.dim, fontWeight: sortBy === 'recent' ? 600 : 400,
             }}>Most recent</button>
             <span>·</span>
-            <button onClick={() => setSortBy('salary')} style={{
+            <button onClick={() => setSortBy('salary')} aria-pressed={sortBy === 'salary'} style={{
               background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.78rem', fontFamily: 'Inter, sans-serif',
               color: sortBy === 'salary' ? v.purple : v.dim, fontWeight: sortBy === 'salary' ? 600 : 400,
             }}>Salary</button>
