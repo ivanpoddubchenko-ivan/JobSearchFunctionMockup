@@ -6,6 +6,7 @@ export type AuthUser = {
   name: string
   email: string
   role: string
+  dob: string
   savedJobIds: number[]
 }
 
@@ -31,6 +32,7 @@ function toAuthUser(supabaseUser: { email?: string | null; user_metadata?: Recor
   const meta = supabaseUser.user_metadata ?? {}
   const fullName = typeof meta.full_name === 'string' ? meta.full_name : ''
   const role = typeof meta.role === 'string' ? meta.role : ''
+  const dob = typeof meta.date_of_birth === 'string' ? meta.date_of_birth : ''
   const savedJobIds = Array.isArray(meta.saved_job_ids)
     ? meta.saved_job_ids.filter((id): id is number => typeof id === 'number')
     : []
@@ -38,6 +40,7 @@ function toAuthUser(supabaseUser: { email?: string | null; user_metadata?: Recor
     name: fullName || supabaseUser.email.split('@')[0] || 'You',
     email: supabaseUser.email,
     role,
+    dob,
     savedJobIds,
   }
 }
