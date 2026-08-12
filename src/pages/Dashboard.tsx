@@ -40,6 +40,7 @@ export default function Dashboard() {
   const [sector,      setSector]      = useState('All')
   const [jobType,     setJobType]     = useState('All types')
   const [query,       setQuery]       = useState('')
+  const [sortBy,      setSortBy]      = useState<'recent' | 'salary'>('recent')
 
   const filtered = JOBS.filter(j => {
     const q = query.toLowerCase()
@@ -48,7 +49,9 @@ export default function Dashboard() {
       (sector  === 'All'       || j.sector === sector) &&
       (jobType === 'All types' || j.type   === jobType)
     )
-  })
+  }).sort((a, b) => (
+    sortBy === 'recent' ? a.postedDaysAgo - b.postedDaysAgo : b.salaryMin - a.salaryMin
+  ))
 
   return (
     <div style={{ background: v.bg, minHeight: '100vh', color: v.text, transition: 'background 0.25s' }}>
@@ -121,9 +124,15 @@ export default function Dashboard() {
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.78rem', color: v.dim }}>
             Sort:
-            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: v.purple, fontSize: '0.78rem', fontWeight: 600, fontFamily: 'Inter, sans-serif' }}>Most recent</button>
+            <button onClick={() => setSortBy('recent')} style={{
+              background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.78rem', fontFamily: 'Inter, sans-serif',
+              color: sortBy === 'recent' ? v.purple : v.dim, fontWeight: sortBy === 'recent' ? 600 : 400,
+            }}>Most recent</button>
             <span>·</span>
-            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: v.dim, fontSize: '0.78rem', fontFamily: 'Inter, sans-serif' }}>Salary</button>
+            <button onClick={() => setSortBy('salary')} style={{
+              background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.78rem', fontFamily: 'Inter, sans-serif',
+              color: sortBy === 'salary' ? v.purple : v.dim, fontWeight: sortBy === 'salary' ? 600 : 400,
+            }}>Salary</button>
           </div>
         </div>
 
