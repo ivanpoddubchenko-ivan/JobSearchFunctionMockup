@@ -112,6 +112,23 @@ function SavedTab() {
   )
 }
 
+function SettingsTab() {
+  return (
+    <div>
+      <p style={{ color: v.dim, fontSize: '0.68rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', margin: '0 0 8px' }}>Password</p>
+      <p style={{ fontSize: '0.85rem', color: v.muted, margin: '0 0 14px', lineHeight: 1.6 }}>
+        Update the password you use to sign in.
+      </p>
+      <button style={{
+        padding: '11px 20px', borderRadius: v.rBtn, fontSize: '0.875rem', fontWeight: 500, cursor: 'pointer',
+        background: v.purpleBg, color: v.purple, border: 'none',
+      }}>
+        Change password
+      </button>
+    </div>
+  )
+}
+
 export default function Profile() {
   useTheme()
   const navigate = useNavigate()
@@ -145,6 +162,7 @@ export default function Profile() {
         <div style={{ borderRadius: v.rCard, padding: 24, background: v.surface, boxShadow: v.shadow }}>
           {tab === 'general' && <GeneralTab />}
           {tab === 'saved' && <SavedTab />}
+          {tab === 'settings' && <SettingsTab />}
         </div>
       </div>
     </div>
