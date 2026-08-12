@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { JOBS } from '../data/jobs'
 import { useAuth } from '../context/AuthContext'
 import bhmpLogo from '../assets/bhmp-logo.avif'
@@ -83,6 +84,41 @@ export function Badge({ children, active }: { children: React.ReactNode; active?
     }}>
       {children}
     </span>
+  )
+}
+
+export function UserMenu() {
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
+
+  if (!user) return null
+  const initials = user.name.slice(0, 2).toUpperCase()
+
+  const handleLogout = async () => {
+    await logout()
+    navigate('/login')
+  }
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      <button
+        onClick={() => navigate('/profile')}
+        title={user.email}
+        style={{
+          width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: v.purpleBg, color: v.purple, fontSize: '0.7rem', fontWeight: 700,
+          border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'Inter, sans-serif',
+        }}
+      >
+        {initials}
+      </button>
+      <button onClick={handleLogout} style={{
+        fontSize: '0.82rem', fontWeight: 600, color: v.dim, background: 'none', border: 'none', cursor: 'pointer', padding: '7px 10px',
+      }}>
+        Log out
+      </button>
+    </div>
   )
 }
 

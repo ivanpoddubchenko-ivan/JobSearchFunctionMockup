@@ -1,38 +1,6 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { JOBS, SECTORS, TYPES } from '../data/jobs'
-import { v, useTheme, Logo, JobCard, JobDetail } from '../components/shared'
-import { useAuth } from '../context/AuthContext'
-
-function UserMenu() {
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
-
-  if (!user) return null
-  const initials = user.name.slice(0, 2).toUpperCase()
-
-  const handleLogout = async () => {
-    await logout()
-    navigate('/login')
-  }
-
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-      <div style={{
-        width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: v.purpleBg, color: v.purple, fontSize: '0.7rem', fontWeight: 700,
-      }} title={user.email}>
-        {initials}
-      </div>
-      <button onClick={handleLogout} style={{
-        fontSize: '0.82rem', fontWeight: 600, color: v.dim, background: 'none', border: 'none', cursor: 'pointer', padding: '7px 10px',
-      }}>
-        Log out
-      </button>
-    </div>
-  )
-}
+import { v, useTheme, Logo, JobCard, JobDetail, UserMenu } from '../components/shared'
 
 export default function Dashboard() {
   useTheme()
