@@ -16,6 +16,15 @@ body {
 ::-webkit-scrollbar { width: 0; }
 * { scrollbar-width: none; }
 
+.login-image-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+@media (max-width: 860px) {
+  .login-image-panel { display: none; }
+}
+
 /* ── Light (default) ── */
 :root, [data-theme="light"] {
   --bg:             #ecedf6;
@@ -30,10 +39,10 @@ body {
   --text-muted:     #4b4b6b;
   --text-dim:       #8888aa;
   --text-xdim:      #c5c5dc;
-  --purple:         #5b5ce2;
-  --purple-hover:   #4a4bc8;
-  --purple-bg:      rgba(91,92,226,0.08);
-  --purple-border:  rgba(91,92,226,0.2);
+  --purple:         #293b7d;
+  --purple-hover:   #1f2d63;
+  --purple-bg:      rgba(41,59,125,0.08);
+  --purple-border:  rgba(41,59,125,0.2);
   --purple-fg:      #ffffff;
   --radius-card:    16px;
   --radius-btn:     10px;

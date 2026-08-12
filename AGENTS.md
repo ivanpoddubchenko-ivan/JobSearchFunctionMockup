@@ -13,9 +13,17 @@ A Vite development server is **already running** on `$PORT` (default 8443). You 
 
 This is the canonical project structure. Start with task-relevant files below. Only follow imports or inspect other files when required, when a documented path is missing, or when the repository contradicts this guide.
 
-- `src/main.tsx` - React entrypoint; imports `src/index.css` and mounts `src/App.tsx` into the `#root` element
-- `src/App.tsx` - Primary application component and the usual starting point for UI work
-- `src/index.css` - Global CSS entrypoint and Tailwind CSS v4 import
+- `src/main.tsx` - React entrypoint; imports `src/index.css` and mounts `src/App.tsx`, wrapped in `BrowserRouter`, into the `#root` element
+- `src/App.tsx` - Route definitions (`/` and `/login`) and the `AuthProvider` wrapper. Not the usual starting point for UI work — see `src/pages/` instead
+- `src/pages/Dashboard.tsx` - The `/` route (job listings, filters, application tracker), gated behind auth via `RequireAuth`
+- `src/pages/LoginPage.tsx` - The `/login` route: split-screen shell (image panel + mode tabs) rendering either `RegisterWizard` or `SignInForm`
+- `src/components/login/` - Login-page-only pieces: `RegisterWizard.tsx` (2-step signup), `SignInForm.tsx`, `DateOfBirthField.tsx`, `PasswordField.tsx`, `ImagePanel.tsx`
+- `src/components/shared.tsx` - Shared UI atoms and CSS-var tokens (`v`, `Logo`, `ThemeToggle`, `Badge`, `JobCard`, `JobDetail`, `TrackerView`, `useTheme`) reused by both pages
+- `src/components/RequireAuth.tsx` - Route guard; redirects to `/login` when there is no authenticated user
+- `src/context/AuthContext.tsx` - Mock auth state (`AuthProvider` / `useAuth`), persisted to `localStorage` under `pathways_auth`
+- `src/data/jobs.ts` - Hardcoded mock data: `JOBS`, `ROLES`, `SECTORS`, `TYPES`, `STATUS_STYLE`
+- `src/assets/login/` - Login page brand assets (BHMP Network logo, background photo)
+- `src/index.css` - Global CSS entrypoint, Tailwind CSS v4 import, light/dark theme CSS variables, and the `.login-image-panel` responsive rule
 - `index.html` - Vite HTML shell containing the `#root` element and loading `src/main.tsx`
 - `package.json` - Project dependencies and the Vite build, development, preview, and formatting scripts
 - `vite.config.ts` - Vite configuration with React, Tailwind CSS v4, and Figma Make plugins plus the `@` alias for `src`
@@ -23,7 +31,7 @@ This is the canonical project structure. Start with task-relevant files below. O
 
 ## Dependencies
 
-- Runtime: React 19 and React DOM 19
+- Runtime: React 19, React DOM 19, and React Router 7 (`react-router-dom`)
 - Styling: Tailwind CSS v4 with the `@tailwindcss/vite` plugin
 - Build tooling: Vite 8, TypeScript 5.7, and `@vitejs/plugin-react`
 - Formatting: oxfmt
