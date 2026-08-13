@@ -139,7 +139,7 @@ export default function Profile() {
   return (
     <div style={{ background: v.bg, minHeight: '100vh', color: v.text }}>
       <header style={{ background: v.surface, boxShadow: `0 1px 0 ${v.border}`, position: 'sticky', top: 0, zIndex: 40 }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 28px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+        <div className="page-shell" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 28px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
           <button onClick={() => navigate('/')} style={{ cursor: 'pointer', display: 'flex', background: 'none', border: 'none', padding: 0 }}>
             <Logo />
           </button>
@@ -147,7 +147,7 @@ export default function Profile() {
         </div>
       </header>
 
-      <div className="profile-grid" style={{ maxWidth: 1200, margin: '0 auto', padding: '44px 28px 48px', display: 'grid', gridTemplateColumns: '220px 1fr', gap: 28, alignItems: 'start' }}>
+      <div className="profile-grid page-shell" style={{ maxWidth: 1200, margin: '0 auto', padding: '44px 28px 48px', display: 'grid', gridTemplateColumns: '220px 1fr', gap: 28, alignItems: 'start' }}>
         <nav className="profile-tabs" style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           {TABS.map(t => (
             <button key={t.id} onClick={() => setTab(t.id)} style={{
