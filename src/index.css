@@ -36,7 +36,7 @@ body {
   .dash-header-actions { order: 2; }
   .dash-header-search {
     order: 3;
-    flex-basis: 100%;
+    flex-basis: 100% !important;
     max-width: none !important;
   }
 
