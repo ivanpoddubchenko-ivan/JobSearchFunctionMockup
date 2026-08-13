@@ -44,6 +44,15 @@ body {
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
+
+  .listings-grid { grid-template-columns: 1fr !important; }
+  .job-detail-panel {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 50;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+  }
 }
 
 /* ── Light (default) ── */
