@@ -53,6 +53,13 @@ body {
     max-height: 100vh !important;
     border-radius: 0 !important;
   }
+
+  .profile-grid { grid-template-columns: 1fr !important; }
+  .profile-tabs {
+    flex-direction: row !important;
+    overflow-x: auto;
+    gap: 8px !important;
+  }
 }
 
 /* ── Light (default) ── */

@@ -147,8 +147,8 @@ export default function Profile() {
         </div>
       </header>
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '44px 28px 48px', display: 'grid', gridTemplateColumns: '220px 1fr', gap: 28, alignItems: 'start' }}>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      <div className="profile-grid" style={{ maxWidth: 1200, margin: '0 auto', padding: '44px 28px 48px', display: 'grid', gridTemplateColumns: '220px 1fr', gap: 28, alignItems: 'start' }}>
+        <nav className="profile-tabs" style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           {TABS.map(t => (
             <button key={t.id} onClick={() => setTab(t.id)} style={{
               textAlign: 'left', padding: '10px 14px', borderRadius: 9, fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', border: 'none',
