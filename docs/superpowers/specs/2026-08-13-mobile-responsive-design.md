@@ -64,12 +64,11 @@ below.
 - Add `className="dash-header-inner"` to the header's inner flex row
   (`Dashboard.tsx:29`), `className="dash-header-search"` to the search
   `<div>` (`Dashboard.tsx:33`), and `className="dash-header-actions"` to the
-  actions `<div>` wrapping `UserMenu` (`Dashboard.tsx:50`). The outer
-  `<header>` (`Dashboard.tsx:28`) gets `className="dash-header"`.
+  actions `<div>` wrapping `UserMenu` (`Dashboard.tsx:50`).
 - New CSS (`src/index.css`, inside `@media (max-width: 768px)`):
-  - `.dash-header { height: auto; }` and `.dash-header-inner { height: auto;
-    flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; }` — the header
-    grows to fit two rows instead of clipping at the fixed `60px` height.
+  - `.dash-header-inner { height: auto; flex-wrap: wrap; padding-top: 10px;
+    padding-bottom: 10px; }` — the header grows to fit two rows instead of
+    clipping at the fixed `60px` height.
   - `.dash-header-actions { order: 2; }` and `.dash-header-search { order: 3;
     flex-basis: 100%; max-width: none !important; }` — logo (default
     `order: 0`) and the actions group share row 1 (they fit: ~103px logo +
@@ -98,8 +97,8 @@ below.
     the grid to one column regardless of the JS-computed `1fr`/`1fr 1.5fr`
     value, so the job list always takes the full row width.
   - `.job-detail-panel { position: fixed !important; inset: 0 !important;
-    top: 0 !important; z-index: 50; max-height: 100vh !important; border-radius:
-    0 !important; margin: 0; }` — when a job is selected, the panel (which
+    z-index: 50; max-height: 100vh !important; border-radius:
+    0 !important; }` — when a job is selected, the panel (which
     the grid no longer reserves space for, since it's now `position: fixed`
     and out of flow) becomes a full-screen overlay above the job list. The
     existing `×` close button inside `JobDetail` (`shared.tsx:195`) already
