@@ -54,7 +54,7 @@ export default function Dashboard() {
       </header>
 
       {/* ── Hero ── */}
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '44px 28px 24px' }}>
+      <div className="page-shell" style={{ maxWidth: 1200, margin: '0 auto', padding: '44px 28px 24px' }}>
         <h1 style={{ fontWeight: 700, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: v.text, lineHeight: 1.1, letterSpacing: '-0.03em', margin: '0 0 10px' }}>
           Find your next <span style={{ color: v.purple }}>opportunity.</span>
         </h1>
@@ -93,7 +93,7 @@ export default function Dashboard() {
       </div>
 
       {/* ── Listings split view ── */}
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '20px 28px 48px' }}>
+      <div className="page-shell" style={{ maxWidth: 1200, margin: '0 auto', padding: '20px 28px 48px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
           <p style={{ fontSize: '0.82rem', color: v.dim, margin: 0 }}>
             <span style={{ color: v.text, fontWeight: 600 }}>{filtered.length}</span> roles found

@@ -39,6 +39,11 @@ body {
     flex-basis: 100%;
     max-width: none !important;
   }
+
+  .page-shell {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
 }
 
 /* ── Light (default) ── */
