@@ -26,11 +26,11 @@ export default function Dashboard() {
 
       {/* ── Nav ── */}
       <header style={{ background: v.surface, boxShadow: `0 1px 0 ${v.border}`, position: 'sticky', top: 0, zIndex: 40 }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 28px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+        <div className="dash-header-inner" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 28px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
           <Logo />
 
           {/* Search bar — matches the reference */}
-          <div style={{
+          <div className="dash-header-search" style={{
             flex: 1, maxWidth: 340,
             display: 'flex', alignItems: 'center', gap: 8,
             padding: '8px 14px', borderRadius: v.rInput,
@@ -47,7 +47,7 @@ export default function Dashboard() {
             />
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+          <div className="dash-header-actions" style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
             <UserMenu />
           </div>
         </div>

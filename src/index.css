@@ -25,6 +25,22 @@ body {
   .login-image-panel { display: none; }
 }
 
+/* ── Mobile (≤768px) ── */
+@media (max-width: 768px) {
+  .dash-header-inner {
+    height: auto !important;
+    flex-wrap: wrap;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+  .dash-header-actions { order: 2; }
+  .dash-header-search {
+    order: 3;
+    flex-basis: 100%;
+    max-width: none !important;
+  }
+}
+
 /* ── Light (default) ── */
 :root, [data-theme="light"] {
   --bg:             #ecedf6;
